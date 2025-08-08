@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>ShortcutObserver</string>
+	<key>CFBundleExecutable</key>
+	<string>ShortcutObserver</string>
+	<key>CFBundleIconFile</key>
+	<string>ShortcutObserver.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>ShortcutObserver</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>AbSO</string>
+	<key>CFBundleVersion</key>
+	<string>2.1</string>
+	<key>CSResourcesFileMapped</key>
+	<true/>
+	<key>LSUIElement</key>
+	<string>1</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>ShortcutsObserver sends AppleEvents to other apps to obtain context information from selection</string>
+	<key>NSMainNibFile</key>
+	<string>Main</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Shortcuts Items...</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>showContextualMenu</string>
+			<key>NSPortName</key>
+			<string>ShortcutObserver</string>
+			<key>NSRequiredContext</key>
+			<dict/>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSFilenamesPboardType</string>
+			</array>
+		</dict>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Shortcuts Items...</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>showContextualMenu</string>
+			<key>NSPortName</key>
+			<string>ShortcutObserver</string>
+			<key>NSRequiredContext</key>
+			<dict/>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
