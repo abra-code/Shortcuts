@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>AbSO</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>LSUIElement</key>
@@ -38,7 +38,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Shortcuts Items...</string>
+				<string>Abracode Shortcuts...</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>showContextualMenu</string>
@@ -55,7 +55,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Shortcuts Items...</string>
+				<string>Abracode Shortcuts...</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>showContextualMenu</string>
@@ -69,5 +69,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 </dict>
 </plist>

@@ -7,7 +7,7 @@
  *
  */
 
-#include <Carbon/Carbon.h>
+#include <CoreServices/CoreServices.h>
 
 #ifdef __cplusplus
 extern "C" {

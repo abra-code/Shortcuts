@@ -8,7 +8,6 @@
 {
 	unsigned int modifiers;
 	CFIndex keyCode;
-	NSString *keyString;
 	IBOutlet NSTextField *mShortcutDisplay;
 	IBOutlet NSTextField *mGlyphDisplay;
 	IBOutlet NSTextField *mConflictDisplay;
@@ -20,6 +19,8 @@
 	CFArrayRef mSystemHotKeyArray;
 	CFArrayRef mServicesHotKeyArray;
 }
+
+@property (strong) NSString *keyString;
 
 - (void)resetHotKey;
 - (void)setShortcutList: (CFArrayRef)inList pluginName: (CFStringRef)inPluginName submenuPath: (CFStringRef)inPath menuName: (CFStringRef)inName;

@@ -4,6 +4,7 @@
 
 #import <ServiceManagement/ServiceManagement.h>
 #import "StatusController.h"
+#include <CoreServices/CoreServices.h>
 #include <Carbon/Carbon.h>
 #include "CocoaBezelWindow.h"
 #include "CFObj.h"
@@ -14,7 +15,7 @@ CFStringRef kShortcutObserverAppBundleIdentifier = CFSTR("com.abracode.ShortcutO
 const FourCharCode kObserverCreatorCode = 'AbSO';
 
 CGImageRef ReadImage(CFBundleRef inBundle, CFStringRef inSubFolder, CFStringRef inBackgroundPictureName);
-pascal void AutoCloseTimerAction(EventLoopTimerRef inTimer, void *timeData);
+//pascal void AutoCloseTimerAction(EventLoopTimerRef inTimer, void *timeData);
 CFStringRef kStartItemsArrayID = NULL;
 CFStringRef kLoginWindowIdentifier = NULL;
 
@@ -22,19 +23,32 @@ BOOL
 IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 {
     BOOL isAdded  = NO;
-    CFObj<CFArrayRef> allJobDictionaries = SMCopyAllJobDictionaries(kSMDomainUserLaunchd);
-    if(allJobDictionaries == nullptr)
-    	return NO;
 
-	NSArray *allJobs = (NSArray *)(CFArrayRef)allJobDictionaries;
-	for(NSDictionary* oneJob in allJobs)
-	{
-		if([appBundleIdentifier isEqualToString:[oneJob objectForKey:@"Label"]])
-		{
-			isAdded = [[oneJob objectForKey:@"OnDemand"] boolValue];
-			break;
-		}
-	}
+    if (@available(macOS 13.0, *))
+    {
+        SMAppService *service = [SMAppService loginItemServiceWithIdentifier:appBundleIdentifier];
+        if(service != nil)
+        {
+            SMAppServiceStatus serviceStatus = service.status;
+            isAdded = (serviceStatus == SMAppServiceStatusEnabled);
+        }
+    }
+    else
+    {
+        CFArrayRef allJobDictionaries = SMCopyAllJobDictionaries(kSMDomainUserLaunchd);
+        if(allJobDictionaries == nullptr)
+            return NO;
+        
+        NSArray *allJobs = (NSArray *)CFBridgingRelease(allJobDictionaries);
+        for(NSDictionary* oneJob in allJobs)
+        {
+            if([appBundleIdentifier isEqualToString:[oneJob objectForKey:@"Label"]])
+            {
+                isAdded = [[oneJob objectForKey:@"OnDemand"] boolValue];
+                break;
+            }
+        }
+    }
 	return isAdded;
 }
 
@@ -53,22 +67,16 @@ IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 	return self;
 }
 
-- (void)dealloc
-{
-	[_observerURL release];
-    [super dealloc];
-}
-
 - (void)awakeFromNib
 {
 	NSBundle *appBundle = [NSBundle mainBundle];
 	NSURL *appURL = [appBundle bundleURL];
-	_observerURL = [[appURL URLByAppendingPathComponent:@"Contents/Library/LoginItems/ShortcutObserver.app"] retain];
+	self.observerURL = [appURL URLByAppendingPathComponent:@"Contents/Library/LoginItems/ShortcutObserver.app"];
 
 	mIsObserverRunning = [self isObserverRunning];
 	[self observerStatusChanged];
 	
-	mIsAddedToLoginItems = IsAppAddedToLoginItems((NSString *)kShortcutObserverAppBundleIdentifier);
+    mIsAddedToLoginItems = IsAppAddedToLoginItems((__bridge NSString *)kShortcutObserverAppBundleIdentifier);
 	[self loginItemsStatusChanged];
 
 	NSMenu *bezelImagesMenu = [mBezelPopup menu];
@@ -85,7 +93,8 @@ IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 	{
 		if( CFGetTypeID(resultRef) == CFStringGetTypeID() )
 		{
-			[mBezelPopup selectItemWithTitle: (NSString*)(CFPropertyListRef)resultRef];
+            NSString * __weak resultStr = (__bridge NSString*)resultRef.Get();
+			[mBezelPopup selectItemWithTitle:resultStr];
 		}
 	}
 }
@@ -99,7 +108,7 @@ IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 		[self observerStatusChanged];
 	}
 	
-	BOOL isAddedToLoginItems = IsAppAddedToLoginItems((NSString *)kShortcutObserverAppBundleIdentifier);
+	BOOL isAddedToLoginItems = IsAppAddedToLoginItems((__bridge NSString *)kShortcutObserverAppBundleIdentifier);
 	if(mIsAddedToLoginItems != isAddedToLoginItems)
 	{
 		mIsAddedToLoginItems = isAddedToLoginItems;
@@ -155,9 +164,31 @@ IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 
 - (IBAction)addOrRemoveLoginItem:(id)sender
 {
-	Boolean enable = !mIsAddedToLoginItems;
-	Boolean isOK = SMLoginItemSetEnabled(kShortcutObserverAppBundleIdentifier, enable);
-	[self performSelector:@selector(updateObserverStatus) withObject:nil afterDelay:0.5];
+    BOOL isOK = NO;
+    if (@available(macOS 13.0, *))
+    {
+        SMAppService *service = [SMAppService loginItemServiceWithIdentifier:(__bridge NSString *)kShortcutObserverAppBundleIdentifier];
+        if(service != nil)
+        {
+            SMAppServiceStatus serviceStatus = service.status;
+            BOOL isAdded = (serviceStatus == SMAppServiceStatusEnabled);
+            if(isAdded)
+            {
+                isOK = [service unregisterAndReturnError:NULL];
+            }
+            else
+            {
+                isOK = [service registerAndReturnError:NULL];
+            }
+        }
+    }
+    else
+    {
+        Boolean enable = !mIsAddedToLoginItems;
+        isOK = SMLoginItemSetEnabled(kShortcutObserverAppBundleIdentifier, enable);
+    }
+    
+    [self performSelector:@selector(updateObserverStatus) withObject:nil afterDelay:0.5];
 }
 
 - (IBAction)reviewSystemPrefsAccessibility:(id)sender
@@ -170,16 +201,16 @@ IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 
 - (BOOL)isObserverRunning
 {
-    NSArray *runningApps = [NSRunningApplication runningApplicationsWithBundleIdentifier:(NSString *)kShortcutObserverAppBundleIdentifier];
+    NSArray *runningApps = [NSRunningApplication runningApplicationsWithBundleIdentifier:(__bridge NSString *)kShortcutObserverAppBundleIdentifier];
     return ([runningApps count] > 0);
 }
 
 - (void)startShortcutObserver
 {
-	//[[NSWorkspace sharedWorkspace] openURL:_observerURL];
+	//[[NSWorkspace sharedWorkspace] openURL:self.observerURL];
 	OSStatus err = fnfErr;
-	if(_observerURL != nil)
-		err = LSOpenCFURLRef((CFURLRef)_observerURL, nullptr);
+	if(self.observerURL != nil)
+		err = LSOpenCFURLRef((__bridge CFURLRef)self.observerURL, nullptr);
 
 	if(err != noErr)
 	{
@@ -286,7 +317,7 @@ IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 
 	CFObj<CFBundleRef> observerBundle;
 	if(_observerURL != nil)
-		observerBundle.Adopt(CFBundleCreate( kCFAllocatorDefault, (CFURLRef)_observerURL));
+		observerBundle.Adopt(CFBundleCreate( kCFAllocatorDefault, (CFURLRef)self.observerURL));
 	if(observerBundle != nullptr)
 	{
 		CFObj<CFArrayRef> imageURLs = CFBundleCopyResourceURLsOfType( observerBundle, CFSTR("png"), CFSTR("Bezel Images") );
@@ -301,8 +332,8 @@ IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 				{
 					CFURLRef oneURL = (CFURLRef)theItem;
 					CFObj<CFURLRef> newURL = CFURLCreateCopyDeletingPathExtension( kCFAllocatorDefault, oneURL );
-					CFObj<CFStringRef> oneName = CFURLCopyLastPathComponent(newURL);
-					menuItem = (NSMenuItem*)[menu addItemWithTitle: (NSString*)(CFStringRef)oneName action:@selector(bezelMenuItemSelected:) keyEquivalent:@""];
+					NSString *oneName = CFBridgingRelease(CFURLCopyLastPathComponent(newURL));
+					menuItem = (NSMenuItem*)[menu addItemWithTitle:oneName action:@selector(bezelMenuItemSelected:) keyEquivalent:@""];
 					if(menuItem != nil)
 					{
 						[menuItem setTarget:self];
@@ -331,7 +362,7 @@ IsAppAddedToLoginItems(NSString *appBundleIdentifier)
 	CFPreferencesSetAppValue( CFSTR("BEZEL_IMAGE"), (CFPropertyListRef)itemStr, SHORTCUTS_IDENTIFIER );
 	CFPreferencesAppSynchronize(SHORTCUTS_IDENTIFIER);
 	if( itemStr != NULL )
-		ShowBezelWindow( (CFStringRef)NSLocalizedString(@"Command Test", @""), (CFURLRef)_observerURL, (CFStringRef)itemStr, CFSTR("Bezel Images") );
+		ShowBezelWindow( NSLocalizedString(@"Command Test", @""), self.observerURL, itemStr, @"Bezel Images" );
 }
 
 

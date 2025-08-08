@@ -71,13 +71,13 @@ enum
 					CFTypeRef theResult = CFDictionaryGetValue( theDict, CFSTR("NAME") );
 					if((theResult != NULL) && (CFStringGetTypeID() == CFGetTypeID(theResult)) )
 					{
-						NSString *theName = (NSString *)theResult;
+						NSString * __weak theName = (__bridge NSString *)theResult;
 						theResult = CFDictionaryGetValue( theDict, CFSTR("SUBMENU") );
 						if((theResult != NULL) && (CFStringGetTypeID() == CFGetTypeID(theResult)) )
 						{
-							NSString *submenuPath = (NSString *)theResult;
+							NSString * __weak submenuPath = (__bridge NSString *)theResult;
 							NSMutableString *outStr = [NSMutableString stringWithString:submenuPath];
-							unsigned int strLen = [outStr length];
+                            NSUInteger strLen = [outStr length];
 							if( (strLen > 0) && [outStr characterAtIndex:(strLen-1)] != '/' )
 								[outStr appendString:@"/"];
 							[outStr appendString:theName];
@@ -98,7 +98,7 @@ enum
 								&keyChar, &carbonModifiers, &keyCode);
 								
 				unsigned int modifiers = [ShortcutsController getModifiersFromCarbonModifiers: carbonModifiers];
-				NSString *shortcutString = [ShortcutsController getShortHotKeyString:(NSString *)keyChar withModifiers:modifiers];
+				NSString *shortcutString = [ShortcutsController getShortHotKeyString:(__bridge NSString *)keyChar withModifiers:modifiers];
 				if(shortcutString != NULL)
 					return shortcutString;
 			}

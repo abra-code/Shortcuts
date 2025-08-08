@@ -6,20 +6,6 @@
 	objectVersion = 51;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		E2CC40AB0F6EDCC800486CCF /* All */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = E2CC40B60F6EDCFB00486CCF /* Build configuration list for PBXAggregateTarget "All" */;
-			buildPhases = (
-			);
-			dependencies = (
-				E2CC40B10F6EDCD000486CCF /* PBXTargetDependency */,
-			);
-			name = All;
-			productName = All;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		1D5A74002338B25E0048A2A5 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5A73FF2338B25E0048A2A5 /* ServiceManagement.framework */; };
 		1D5AD2E82334BCDF0015B220 /* Example file.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D9EFE60987705A001019ED /* Example file.png */; };
@@ -49,12 +35,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E2CC40B00F6EDCD000486CCF /* PBXContainerItemProxy */ = {
+		1D2306462E17605600C3F67C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			containerPortal = 1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D1107260486CEB800E47090;
-			remoteInfo = Shortcuts;
+			remoteGlobalIDString = 8D0C4E890486CD37000505A6;
+			remoteInfo = ShortcutObserver;
+		};
+		1D23064A2E17605600C3F67C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D0C4E970486CD37000505A6;
+			remoteInfo = ShortcutObserver;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -74,6 +67,12 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutObserver.xcodeproj; path = "/Users/tkukielk/Development/Abracode Workshop/Shortcuts/ShortcutObserver/ShortcutObserver.xcodeproj"; sourceTree = "<absolute>"; };
+		1D2306522E17DF0D00C3F67C /* Shortcuts-project-common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-project-common.xcconfig"; sourceTree = "<group>"; };
+		1D2306532E17DF0D00C3F67C /* Shortcuts-project-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-project-debug.xcconfig"; sourceTree = "<group>"; };
+		1D2306542E17DF0D00C3F67C /* Shortcuts-project-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-project-release.xcconfig"; sourceTree = "<group>"; };
+		1D2306552E17DF0D00C3F67C /* Shortcuts-version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-version.xcconfig"; sourceTree = "<group>"; };
+		1D2306562E17DF2E00C3F67C /* Shortcuts-target.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-target.xcconfig"; sourceTree = "<group>"; };
 		1D5A73FF2338B25E0048A2A5 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = ../../../../../System/Library/Frameworks/ServiceManagement.framework; sourceTree = "<group>"; };
 		1D5AD2E42334B7A70015B220 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D5AD2E52334B7AD0015B220 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -83,11 +82,10 @@
 		1D8142EC233F51B9007D07CE /* RevealAccessibilityPrefs.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = RevealAccessibilityPrefs.scpt; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Shortcuts_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shortcuts_Prefix.pch; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* Shortcuts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shortcuts.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* Abracode Shortcuts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Abracode Shortcuts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E203E5AB084DABD40096323A /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		E231486E07CF276100A8707E /* ShortcutList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShortcutList.h; sourceTree = SOURCE_ROOT; };
 		E231486F07CF276100A8707E /* ShortcutList.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = ShortcutList.c; sourceTree = SOURCE_ROOT; };
-		E23C19EA10DE00AA00B2E8A1 /* AbracodeCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AbracodeCommon.xcconfig; path = ../AbracodeCommon.xcconfig; sourceTree = SOURCE_ROOT; };
 		E241A5C807C5C43700701308 /* ShortcutsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortcutsController.h; sourceTree = "<group>"; };
 		E241A5DB07C5C87E00701308 /* BuildCMPluginList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildCMPluginList.h; sourceTree = "<group>"; };
 		E241A7CD07C5E46700701308 /* ExtractCMItemData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtractCMItemData.h; sourceTree = "<group>"; };
@@ -167,7 +165,15 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* Shortcuts.app */,
+				8D1107320486CEB800E47090 /* Abracode Shortcuts.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1D2306442E17605600C3F67C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D23064B2E17605600C3F67C /* ShortcutObserver.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,6 +181,10 @@
 		1D8142E8233F35F3007D07CE /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				1D2306522E17DF0D00C3F67C /* Shortcuts-project-common.xcconfig */,
+				1D2306532E17DF0D00C3F67C /* Shortcuts-project-debug.xcconfig */,
+				1D2306542E17DF0D00C3F67C /* Shortcuts-project-release.xcconfig */,
+				1D2306552E17DF0D00C3F67C /* Shortcuts-version.xcconfig */,
 				1D8142E9233F35F3007D07CE /* CFObj.h */,
 			);
 			path = Common;
@@ -184,13 +194,14 @@
 			isa = PBXGroup;
 			children = (
 				1D5AD2E72334BB060015B220 /* Shortcuts.entitlements */,
-				E23C19EA10DE00AA00B2E8A1 /* AbracodeCommon.xcconfig */,
+				1D2306562E17DF2E00C3F67C /* Shortcuts-target.xcconfig */,
 				1D8142E8233F35F3007D07CE /* Common */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */,
 			);
 			name = Shortcuts;
 			sourceTree = "<group>";
@@ -257,11 +268,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				1D2306472E17605600C3F67C /* PBXTargetDependency */,
 			);
 			name = Shortcuts;
 			productInstallPath = "$(HOME)/Applications";
 			productName = Shortcuts;
-			productReference = 8D1107320486CEB800E47090 /* Shortcuts.app */;
+			productReference = 8D1107320486CEB800E47090 /* Abracode Shortcuts.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -282,13 +294,28 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Shortcuts */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1D2306442E17605600C3F67C /* Products */;
+					ProjectRef = 1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
-				E2CC40AB0F6EDCC800486CCF /* All */,
 				8D1107260486CEB800E47090 /* Shortcuts */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1D23064B2E17605600C3F67C /* ShortcutObserver.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ShortcutObserver.app;
+			remoteRef = 1D23064A2E17605600C3F67C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -332,10 +359,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E2CC40B10F6EDCD000486CCF /* PBXTargetDependency */ = {
+		1D2306472E17605600C3F67C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8D1107260486CEB800E47090 /* Shortcuts */;
-			targetProxy = E2CC40B00F6EDCD000486CCF /* PBXContainerItemProxy */;
+			name = ShortcutObserver;
+			targetProxy = 1D2306462E17605600C3F67C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -369,80 +396,30 @@
 /* Begin XCBuildConfiguration section */
 		E24365FF08653BFD0073701F /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D2306562E17DF2E00C3F67C /* Shortcuts-target.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = Shortcuts.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = T9NM2ZLDTY;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Shortcuts_Prefix.pch;
-				INFOPLIST_FILE = Shortcuts_Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abracode.Shortcuts;
-				PRODUCT_NAME = Shortcuts;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SYMROOT = build;
-				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
 		};
 		E243660008653BFD0073701F /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D2306562E17DF2E00C3F67C /* Shortcuts-target.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = Shortcuts.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = T9NM2ZLDTY;
-				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Shortcuts_Prefix.pch;
-				INFOPLIST_FILE = Shortcuts_Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.abracode.Shortcuts;
-				PRODUCT_NAME = Shortcuts;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SYMROOT = build;
-				WRAPPER_EXTENSION = app;
 			};
 			name = Deployment;
 		};
 		E243660308653BFD0073701F /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E23C19EA10DE00AA00B2E8A1 /* AbracodeCommon.xcconfig */;
+			baseConfigurationReference = 1D2306532E17DF0D00C3F67C /* Shortcuts-project-debug.xcconfig */;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = "_DEBUG_=1";
 			};
 			name = Development;
 		};
 		E243660408653BFD0073701F /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E23C19EA10DE00AA00B2E8A1 /* AbracodeCommon.xcconfig */;
+			baseConfigurationReference = 1D2306542E17DF0D00C3F67C /* Shortcuts-project-release.xcconfig */;
 			buildSettings = {
-			};
-			name = Deployment;
-		};
-		E2CC40AC0F6EDCC800486CCF /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = All;
-			};
-			name = Development;
-		};
-		E2CC40AD0F6EDCC800486CCF /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = All;
-				ZERO_LINK = NO;
 			};
 			name = Deployment;
 		};
@@ -463,15 +440,6 @@
 			buildConfigurations = (
 				E243660308653BFD0073701F /* Development */,
 				E243660408653BFD0073701F /* Deployment */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		E2CC40B60F6EDCFB00486CCF /* Build configuration list for PBXAggregateTarget "All" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E2CC40AC0F6EDCC800486CCF /* Development */,
-				E2CC40AD0F6EDCC800486CCF /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

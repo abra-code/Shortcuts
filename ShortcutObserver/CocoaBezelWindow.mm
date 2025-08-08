@@ -5,34 +5,31 @@
 #import "CocoaBezelWindow.h"
 #import <Cocoa/Cocoa.h>
 
-void BezelWindowAutoCloseCallBack(CFRunLoopTimerRef timer, void* info)
-{
-#pragma unused (timer)
-	NSWindow *theWindow = (NSWindow *)info;
-	if(theWindow == NULL)
-		return;
-
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:theWindow, NSViewAnimationTargetKey,
-							  NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey,
-							  nil];
-		
-	NSViewAnimation *fadeOutAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:dict]];
-	[fadeOutAnimation autorelease];//luckily animation lives on until it is done
-	[fadeOutAnimation setAnimationBlockingMode:NSAnimationNonblocking];
-	[fadeOutAnimation startAnimation];
-
-	[theWindow autorelease];//luckily the window is retained by animation and will be gone only when animation is done
-}
+//void BezelWindowAutoCloseCallBack(CFRunLoopTimerRef timer, void* info)
+//{
+//#pragma unused (timer)
+//	NSWindow * __weak theWindow = (__bridge NSWindow *)info;
+//	if(theWindow == nil)
+//		return;
+//
+//	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:theWindow, NSViewAnimationTargetKey,
+//							  NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey,
+//							  nil];
+//		
+//	NSViewAnimation *fadeOutAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:dict]];
+//	[fadeOutAnimation setAnimationBlockingMode:NSAnimationNonblocking];
+//	[fadeOutAnimation startAnimation];
+//}
 
 
 void
-ShowBezelWindow(CFStringRef inText, CFURLRef inObserverURL, CFStringRef inImageName, CFStringRef inSubFolder)
+ShowBezelWindow(NSString *inText, NSURL *inObserverURL, NSString *inImageName, NSString *inSubFolder)
 {
-	if( (inImageName == NULL) || (inText == NULL) )
+	if( (inImageName == nil) || (inText == nil) )
 		return;
 
 	NSBundle *appBundle = nil;
-	if(inObserverURL == nullptr)
+	if(inObserverURL == nil)
 		appBundle = [NSBundle mainBundle];
 	else
 		appBundle = [NSBundle bundleWithURL:(NSURL *)inObserverURL];
@@ -45,7 +42,6 @@ ShowBezelWindow(CFStringRef inText, CFURLRef inObserverURL, CFStringRef inImageN
 		return;
 
 	NSImage *windowImage = [[NSImage alloc] initWithContentsOfFile:imgPathStr];
-	[windowImage autorelease];
 	NSSize imgSize = [windowImage size];
 	NSRect windowRect = NSMakeRect(0, 0, imgSize.width, imgSize.height);
 	
@@ -58,7 +54,6 @@ ShowBezelWindow(CFStringRef inText, CFURLRef inObserverURL, CFStringRef inImageN
 	[imgView setImage:windowImage];
 	
 	[overlayWindow setContentView:imgView];
-	[imgView release];
 	
 	NSTextField *textLabel = [[NSTextField alloc] initWithFrame:windowRect];
 	[[textLabel cell] setLineBreakMode:NSLineBreakByWordWrapping];
@@ -106,20 +101,31 @@ ShowBezelWindow(CFStringRef inText, CFURLRef inObserverURL, CFStringRef inImageN
 	[overlayWindow setFrameOrigin:windowOrigin];
 	[overlayWindow orderFrontRegardless];
 
-
-	CFRunLoopTimerContext timerContext = {0, overlayWindow, NULL, NULL, NULL};
-	CFRunLoopTimerRef autoCloseTimer = CFRunLoopTimerCreate(
-											 kCFAllocatorDefault,
-											 CFAbsoluteTimeGetCurrent() + 1.0,
-											 0,		// interval
-											 0,		// flags
-											 0,		// order
-											 BezelWindowAutoCloseCallBack,
-											 &timerContext);
-	
-	if(autoCloseTimer != NULL)
-	{
-		CFRunLoopAddTimer(CFRunLoopGetCurrent(), autoCloseTimer, kCFRunLoopCommonModes);
-	}
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                    repeats:NO
+                                      block:^(NSTimer *timer) {
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:overlayWindow, NSViewAnimationTargetKey,
+                                  NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey,
+                                  nil];
+            
+        NSViewAnimation *fadeOutAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:dict]];
+        [fadeOutAnimation setAnimationBlockingMode:NSAnimationNonblocking];
+        [fadeOutAnimation startAnimation];
+    }];
+    
+//	CFRunLoopTimerContext timerContext = {0, (__bridge void *)overlayWindow, NULL, NULL, NULL};
+//	CFRunLoopTimerRef autoCloseTimer = CFRunLoopTimerCreate(
+//											 kCFAllocatorDefault,
+//											 CFAbsoluteTimeGetCurrent() + 1.0,
+//											 0,		// interval
+//											 0,		// flags
+//											 0,		// order
+//											 BezelWindowAutoCloseCallBack,
+//											 &timerContext);
+//	
+//	if(autoCloseTimer != NULL)
+//	{
+//		CFRunLoopAddTimer(CFRunLoopGetCurrent(), autoCloseTimer, kCFRunLoopCommonModes);
+//	}
 }
 

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Shortcuts</string>
+	<string>Abracode Shortcuts</string>
 	<key>CFBundleExecutable</key>
-	<string>Shortcuts</string>
+	<string>Abracode Shortcuts</string>
 	<key>CFBundleIconFile</key>
 	<string>Shortcuts.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -13,20 +13,22 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Shortcuts</string>
+	<string>Abracode Shortcuts</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>CFBundleSignature</key>
 	<string>AbSE</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Shortcuts sends AppleEvents to other apps to obtain context information from selection</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 </dict>
 </plist>

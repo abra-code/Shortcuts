@@ -78,8 +78,7 @@ KeyCodeAndGlyph kSpecialGlyph[] =
         // Initialization code here.
 		modifiers = 0;
 		keyCode = 0;
-		keyString = @"";
-		[keyString retain];
+		_keyString = @"";
 		mShortcutList = NULL;
 		mPluginName = NULL;
 		mSubmenuPath = NULL;
@@ -92,9 +91,6 @@ KeyCodeAndGlyph kSpecialGlyph[] =
 
 - (void)dealloc
 {
-	if(keyString != NULL)
-		[keyString release];
-
 	if( mShortcutList != NULL )
 		CFRelease( mShortcutList );
 
@@ -112,20 +108,15 @@ KeyCodeAndGlyph kSpecialGlyph[] =
 
 	if( mServicesHotKeyArray != NULL )
 		CFRelease(mServicesHotKeyArray);
-
-	[super dealloc];
 }
 
 - (void)resetHotKey
 {
 	modifiers = 0;
 	keyCode = 0;
-	if(keyString != NULL)
-		[keyString release];
-	keyString = @"";
-	[keyString retain];
+	self.keyString = @"";
 
-	[self displayShortcut:keyString];
+	[self displayShortcut:self.keyString];
 //	[mShortcutDisplay setStringValue:@""];
 }
 
@@ -133,16 +124,16 @@ KeyCodeAndGlyph kSpecialGlyph[] =
 {
 	keyCode = inKeyCode;
 	[self setModifiersFromCarbonModifiers:inCarbonModifiers];
-	if(keyString != NULL)
-		[keyString release];
+
+    self.keyString = nil;
 
 	if(inKeyChar != NULL)
 	{
-		keyString = (NSString*)inKeyChar;
-		[keyString retain];
+        CFRetain(inKeyChar);
+		self.keyString = (NSString*)CFBridgingRelease(inKeyChar);
 	}
 	
-	[self displayShortcut:keyString];
+	[self displayShortcut:self.keyString];
 }
 
 - (CFIndex)getKeyCode
@@ -153,7 +144,7 @@ KeyCodeAndGlyph kSpecialGlyph[] =
 //retain if you plan to keep it
 - (CFStringRef)getKeyChar
 {
-	return (CFStringRef)keyString;
+	return (__bridge CFStringRef)self.keyString;
 }
 
 - (CFIndex) getCarbonModifiers
@@ -233,23 +224,16 @@ KeyCodeAndGlyph kSpecialGlyph[] =
 {
 	keyCode = (CFIndex)[theEvent keyCode];
 	modifiers = [theEvent modifierFlags];
-	if(keyString != NULL)
-	{
-		[keyString release];
-		keyString = NULL;
-	}
+    
+	self.keyString = [self getSpecialKeyString:keyCode];
 
-	keyString =[self getSpecialKeyString:keyCode];
+	if(self.keyString == nil)
+        self.keyString = [theEvent charactersIgnoringModifiers];
 
-	if(keyString == NULL)
-		keyString = [theEvent charactersIgnoringModifiers];
+	if(self.keyString == nil)
+        self.keyString = @"";
 
-	if(keyString == NULL)
-		keyString = @"";
-
-	[keyString retain];
-
-	[self displayShortcut:keyString];
+	[self displayShortcut:self.keyString];
 //	printf("\nkeyDown called. keycode=%d, modifier=%d\n", keyCode, modifiers);
 }
 
@@ -257,20 +241,16 @@ KeyCodeAndGlyph kSpecialGlyph[] =
 {
 	keyCode = (CFIndex)[theEvent keyCode];
 	modifiers = [theEvent modifierFlags];
-	if(keyString != NULL)
-		[keyString release];
 
-	keyString =[self getSpecialKeyString:keyCode];
+    self.keyString = [self getSpecialKeyString:keyCode];
 
-	if(keyString == NULL)
-		keyString = [theEvent charactersIgnoringModifiers];
+	if(self.keyString == NULL)
+        self.keyString = [theEvent charactersIgnoringModifiers];
 
-	if(keyString == NULL)
-		keyString = @"";
+	if(self.keyString == NULL)
+        self.keyString = @"";
 
-	[keyString retain];
-
-	[self displayShortcut:keyString];
+	[self displayShortcut:self.keyString];
 
 //	printf("\nperformKeyEquivalent called.keycode=%d, modifier=%d\n", keyCode, modifiers);
 }
@@ -311,7 +291,7 @@ KeyCodeAndGlyph kSpecialGlyph[] =
 	}
 	*/
 	
-	NSString *upperKey = NULL;
+	NSString *upperKey = nil;
 	if([theKey length] == 1)
 		upperKey = [theKey uppercaseString];
 	else
@@ -340,7 +320,7 @@ KeyCodeAndGlyph kSpecialGlyph[] =
 		return;
 	}
 
-	Boolean hasServicesConflict = HasServicesHotKeyConflictForHotKey(mServicesHotKeyArray, carbonModifiers, (CFStringRef)upperKey);
+	Boolean hasServicesConflict = HasServicesHotKeyConflictForHotKey(mServicesHotKeyArray, carbonModifiers, (__bridge CFStringRef)upperKey);
 
 	if(hasServicesConflict)
 	{

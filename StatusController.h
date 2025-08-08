@@ -11,10 +11,11 @@
     IBOutlet NSButton *mObserverButton;
     IBOutlet NSTextField *mObserverText;
 	IBOutlet NSPopUpButton *mBezelPopup;
-	NSURL *_observerURL;
 	BOOL mIsObserverRunning;
 	BOOL mIsAddedToLoginItems;
 }
+
+@property(strong) NSURL *observerURL;
 
 - (IBAction)startOrStopObserver:(id)sender;
 - (IBAction)addOrRemoveLoginItem:(id)sender;

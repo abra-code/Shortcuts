@@ -55,7 +55,7 @@ CreateCFStringFromAEDesc(const AEDesc *inDesc)
 	}
 	if( inDesc->descriptorType == typeUnicodeText )
 	{
-		UniChar *newBuffer = (UniChar *)NewPtrClear(byteCount);
+        UniChar *newBuffer = (UniChar *)calloc(byteCount, 1);
 		if(newBuffer != NULL)
 		{
 			if( AEGetDescData( inDesc, newBuffer, byteCount ) == noErr)
@@ -67,19 +67,19 @@ CreateCFStringFromAEDesc(const AEDesc *inDesc)
 				}
 				outString = CFStringCreateWithCharacters(kCFAllocatorDefault, newBuffer, byteCount/sizeof(UniChar) );
 			}	
-			DisposePtr( (Ptr)newBuffer );
+			free(newBuffer);
 		}
 	}
 	else if( inDesc->descriptorType == typeChar )
 	{
-		char *newBuffer = NewPtrClear(byteCount);
+        char *newBuffer = (char *)calloc(byteCount, 1);
 		if(newBuffer != NULL)
 		{
 			if( AEGetDescData( inDesc, newBuffer, byteCount ) == noErr)
 			{
 				outString = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8*)newBuffer, byteCount, CFStringGetSystemEncoding(), true);
 			}	
-			DisposePtr( (Ptr)newBuffer );
+			free(newBuffer);
 		}
 	}
 	else if( inDesc->descriptorType != typeNull ) 
@@ -91,7 +91,7 @@ CreateCFStringFromAEDesc(const AEDesc *inDesc)
 			if( (textDesc.descriptorType == typeUnicodeText) && (textDesc.dataHandle != NULL) )
 			{
 				byteCount = AEGetDescDataSize( &textDesc );
-				UniChar *newBuffer = (UniChar *)NewPtrClear(byteCount);
+                UniChar *newBuffer = (UniChar *)calloc(byteCount, 1);
 				if(newBuffer != NULL)
 				{
 					if( AEGetDescData( &textDesc, newBuffer, byteCount ) == noErr)
@@ -103,7 +103,7 @@ CreateCFStringFromAEDesc(const AEDesc *inDesc)
 						}
 						outString = CFStringCreateWithCharacters(kCFAllocatorDefault, newBuffer, byteCount/sizeof(UniChar) );
 					}	
-					DisposePtr( (Ptr)newBuffer );
+					free(newBuffer);
 				}
 			}
 		}
@@ -112,14 +112,14 @@ CreateCFStringFromAEDesc(const AEDesc *inDesc)
 			if( (textDesc.descriptorType == typeChar) && (textDesc.dataHandle != NULL) )
 			{
 				byteCount = AEGetDescDataSize( &textDesc );
-				char *newBuffer = NewPtrClear(byteCount);
+                char *newBuffer = (char*)calloc(byteCount, 1);
 				if(newBuffer != NULL)
 				{
 					if( AEGetDescData( &textDesc, newBuffer, byteCount ) == noErr)
 					{
 						outString = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8*)newBuffer, byteCount, CFStringGetSystemEncoding(), true);
 					}	
-					DisposePtr( (Ptr)newBuffer );
+					free(newBuffer);
 				}
 			}
 		}

@@ -258,7 +258,7 @@ ShowErrorWindow(CFStringRef messageText, CFStringRef errorBezelName)
 		return;//not using window notification
 
 	//using window notification
-	ShowBezelWindow(messageText, NULL, errorBezelName, CFSTR("Error Bezels") );
+	ShowBezelWindow((__bridge NSString *)messageText, nil, (__bridge NSString *)errorBezelName, @"Error Bezels" );
 }
 
 
@@ -500,12 +500,9 @@ CFStringRef CopyCurrentTextSelectionWithAccessibility()
 	if(mPostMenuCleanupTimer != NULL)
 	{
 		[mPostMenuCleanupTimer invalidate];
-		[mPostMenuCleanupTimer release];
 		mPostMenuCleanupTimer = NULL;
 	}
 
-	if( mCMItemsMenu != NULL)//still showing the menu?
-		[mCMItemsMenu release];
 	mCMItemsMenu = NULL;
 	
 	if(mContextDesc.dataHandle != NULL)
@@ -524,8 +521,6 @@ CFStringRef CopyCurrentTextSelectionWithAccessibility()
 	if(mMainBundle != NULL)
 		CFRelease(mMainBundle);
 	mMainBundle = NULL;
-
-    [super dealloc];
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -731,12 +726,12 @@ CFStringRef CopyCurrentTextSelectionWithAccessibility()
 		printf("Shortcut Observer. Entering CreateFrontAppContext with prefersTextContext = %s\n", prefersTextContext ? "true" : "false");
 #endif
 
-	if((outDesc == nullptr) || (processName == nullptr))
+	if((outDesc == nullptr) || (processName == nil))
 		return paramErr;
 
 	AEInitializeDescInline(outDesc);
 
-	if( (prefersTextContext == false) && (kCFCompareEqualTo == CFStringCompare((CFStringRef)processName, CFSTR("Finder"), 0)) )
+	if((prefersTextContext == false) && [processName isEqualToString:@"Finder"])
 	{
 #if _DEBUG_
 		printf("Shortcut Observer->CreateFrontAppContext. Front process is Finder\n");
@@ -745,7 +740,7 @@ CFStringRef CopyCurrentTextSelectionWithAccessibility()
 	}
 	else
 	{
-		ContextScriptInfo* currScript = FindScriptByName(prefersTextContext? mTextContexProviders : mAliasContexProviders, (CFStringRef)processName);
+		ContextScriptInfo* currScript = FindScriptByName(prefersTextContext? mTextContexProviders : mAliasContexProviders, (__bridge CFStringRef)processName);
 		if(currScript != NULL)
 		{
 #if _DEBUG_
@@ -943,16 +938,18 @@ typedef struct ContextualMenuInterfaceStruct ContextualMenuInterfaceStruct;
 			
 	if(err == noErr)
 	{
-		CFObj<CFStringRef> processName;
+		CFObj<CFStringRef> cfProcessName;
 		ProcessSerialNumber frontProcess = {0,0};
 		err = GetFrontProcess(&frontProcess);
 		if(err == noErr)
-			err = CopyProcessName (&frontProcess, &processName);
-
-		err = [self createContext: &contextDesc forFrontApp:(NSString *)(CFStringRef)processName frontAppPSN:&frontProcess prefersText:prefersTextContext];//ignore error and go with null context
+			err = CopyProcessName (&frontProcess, &cfProcessName);
+        
+        NSString *processName = CFBridgingRelease(cfProcessName.Detach());
+        
+		err = [self createContext: &contextDesc forFrontApp:processName frontAppPSN:&frontProcess prefersText:prefersTextContext];//ignore error and go with null context
 		if( (contextDesc.descriptorType == typeNull) || (contextDesc.dataHandle == NULL) )
 		{
-			err = [self createContext: &contextDesc forFrontApp:(NSString *)(CFStringRef)processName frontAppPSN:&frontProcess prefersText:!prefersTextContext];//try the other context if current result is null
+			err = [self createContext: &contextDesc forFrontApp:processName frontAppPSN:&frontProcess prefersText:!prefersTextContext];//try the other context if current result is null
 		}
 
 #if _DEBUG_
@@ -994,7 +991,7 @@ typedef struct ContextualMenuInterfaceStruct ContextualMenuInterfaceStruct;
 
 				if(bezelImageName != nullptr)
 				{
-					ShowBezelWindow(inItemName, NULL, bezelImageName, CFSTR("Bezel Images") );
+					ShowBezelWindow((__bridge NSString *)inItemName, nil, (__bridge NSString *)bezelImageName.Get(), @"Bezel Images" );
 				}
 
 				(*interface)->HandleSelection(interface, &contextDesc, foundCommandID );
@@ -1079,12 +1076,12 @@ Cleanup:
 			
 			if(prefersTextContext)
 			{
-				NSArray *supportedTextTypes = [NSArray arrayWithObjects: NSStringPboardType, nil];
+				NSArray *supportedTextTypes = [NSArray arrayWithObjects: NSPasteboardTypeString, nil];
 				NSString *bestType = [pboard availableTypeFromArray:supportedTextTypes];
 				if(bestType != NULL)
 				{
-					NSString *selectionString = [pboard stringForType:NSStringPboardType];
-					err = CreateUniTextDescFromCFString((CFStringRef)selectionString, &mContextDesc);
+					NSString *selectionString = [pboard stringForType:NSPasteboardTypeString];
+					err = CreateUniTextDescFromCFString((__bridge CFStringRef)selectionString, &mContextDesc);
 				}
 			}
 
@@ -1102,23 +1099,24 @@ Cleanup:
 				}
 				else if(!prefersTextContext)//we don't have file paths and did not try text yet: do it now
 				{
-					NSArray *supportedTextTypes = [NSArray arrayWithObjects: NSStringPboardType, nil];
+					NSArray *supportedTextTypes = [NSArray arrayWithObjects: NSPasteboardTypeString, nil];
 					NSString *bestType = [pboard availableTypeFromArray:supportedTextTypes];
 					if(bestType != NULL)
 					{
-						NSString *selectionString = [pboard stringForType:NSStringPboardType];
-						err = CreateUniTextDescFromCFString((CFStringRef)selectionString, &mContextDesc);
+						NSString *selectionString = [pboard stringForType:NSPasteboardTypeString];
+						err = CreateUniTextDescFromCFString((__bridge CFStringRef)selectionString, &mContextDesc);
 					}
 				}
 			}
 		}
 		else
-		{						
-			err = [self createContext: &mContextDesc forFrontApp:(NSString *)(CFStringRef)processName frontAppPSN:&frontProcess prefersText:prefersTextContext];//ignore error and go with null context
+		{
+            NSString * __weak frontAppName = (__bridge NSString *)processName.Get();
+			err = [self createContext: &mContextDesc forFrontApp:frontAppName frontAppPSN:&frontProcess prefersText:prefersTextContext];//ignore error and go with null context
 			if( (mContextDesc.descriptorType == typeNull) || (mContextDesc.dataHandle == NULL) )
 			{
-				err = [self createContext: &mContextDesc forFrontApp:(NSString *)(CFStringRef)processName frontAppPSN:&frontProcess prefersText:!prefersTextContext];//try the other context if current result is null
-			}			
+				err = [self createContext: &mContextDesc forFrontApp:frontAppName frontAppPSN:&frontProcess prefersText:!prefersTextContext];//try the other context if current result is null
+			}
 		}
 
 		[self populateContextualMenu:mCMItemsMenu forContext:&mContextDesc];
@@ -1126,7 +1124,6 @@ Cleanup:
 		NSInteger itemCount = [mCMItemsMenu numberOfItems];
 		if(itemCount == 0)
 		{//nothing to show
-			[mCMItemsMenu release];
 			mCMItemsMenu = NULL;
 
 			if(mContextDesc.dataHandle != NULL)
@@ -1302,7 +1299,8 @@ Cleanup:
 				}
 				else if(oneMenuName != NULL)
 				{
-					menuItem = (NSMenuItem*)[inMenu addItemWithTitle:(NSString *)(CFStringRef)oneMenuName action:@selector(cmMenuItemSelected:) keyEquivalent:@""];
+                    NSString * __weak menuName = (__bridge NSString *)oneMenuName.Get();
+					menuItem = (NSMenuItem*)[inMenu addItemWithTitle:menuName action:@selector(cmMenuItemSelected:) keyEquivalent:@""];
 				}
 				
 				if( (menuItem != NULL) && (oneMenuName != NULL) )
@@ -1324,8 +1322,8 @@ Cleanup:
 
 					if( isSubmenu )
 					{
-						NSMenu *subMenu = [[NSMenu alloc] initWithTitle:(NSString *)(CFStringRef)oneMenuName];
-						[subMenu autorelease];
+                        NSString * __weak menuName = (__bridge NSString *)oneMenuName.Get();
+						NSMenu *subMenu = [[NSMenu alloc] initWithTitle:menuName];
 						[inMenu setSubmenu:(NSMenu *)subMenu forItem:menuItem];
 						CFObj<CFURLRef> newPath = CFURLCreateCopyAppendingPathComponent(
 											kCFAllocatorDefault,
@@ -1379,7 +1377,7 @@ Cleanup:
 							CFObj<CFNumberRef> commandID = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &oneCommandID);
 							CFDictionarySetValue(theDict, CFSTR("ID"), commandID);//retained
 							CFDictionarySetValue(theDict, CFSTR("PREFERS_TEXT_CONTEXT"), inPrefersText ? kCFBooleanTrue : kCFBooleanFalse );
-							[menuItem setRepresentedObject:(id)(CFMutableDictionaryRef)theDict];//retained (hopefully)
+                            menuItem.representedObject = CFBridgingRelease(theDict.Detach());
 						}
 					}
 				}
@@ -1408,39 +1406,42 @@ Cleanup:
 	if(mPostMenuCleanupTimer != NULL)
 	{
 		[mPostMenuCleanupTimer invalidate];
-		[mPostMenuCleanupTimer release];
-		mPostMenuCleanupTimer = NULL;
+		mPostMenuCleanupTimer = nil;
 	}
 
 	NSMenuItem *menuItem = (NSMenuItem *)sender;
 	SInt32 cmItemCommandID = 0;
-	CFURLRef pluginURLRef = NULL;
-	CFTypeRef theResult = NULL;
+	id theResult = nil;
 	ContextualMenuInterfaceStruct **interface = NULL;
 
-	CFDictionaryRef menuItemInfo = (CFDictionaryRef)[menuItem representedObject];
-	if(menuItemInfo == NULL)
-		goto Cleanup;
-	
-	theResult = CFDictionaryGetValue( menuItemInfo, CFSTR("PLUGIN_URL") );
-	if( (theResult != NULL) && (CFURLGetTypeID() == CFGetTypeID(theResult)) )
-		pluginURLRef = (CFURLRef)theResult;
-	
-	if(pluginURLRef == NULL)
-		goto Cleanup;
-
+	NSDictionary *menuItemInfo = menuItem.representedObject;
+	if(![menuItemInfo isKindOfClass:NSDictionary.class])
+    {
+        goto Cleanup;
+    }
+    
+    theResult = menuItemInfo[@"PLUGIN_URL"];
+    if(![theResult isKindOfClass:NSURL.class])
+    {
+        goto Cleanup;
+    }
 
 	if(mLoadedPluginChain != NULL)
-		interface = FindLoadedPlugin(mLoadedPluginChain, pluginURLRef);
-
+    {
+        interface = FindLoadedPlugin(mLoadedPluginChain, (__bridge CFURLRef)theResult);
+    }
+    
 	if(interface == NULL)//this must be a plug-in already loaded
-		goto Cleanup;
-
-	theResult = CFDictionaryGetValue( menuItemInfo, CFSTR("ID") );
-	if( (theResult != NULL) && (CFNumberGetTypeID() == CFGetTypeID(theResult)) )
-	{
-		CFNumberGetValue( (CFNumberRef)theResult, kCFNumberSInt32Type, &cmItemCommandID );
-	}
+    {
+        goto Cleanup;
+    }
+    
+    theResult = menuItemInfo[@"ID"];
+    if([theResult isKindOfClass:NSNumber.class])
+    {
+        cmItemCommandID = (SInt32)((NSNumber *)theResult).intValue;
+        
+    }
 
 	//Note:
 	//if you cancel menu tracking before HandleSelection,
@@ -1488,7 +1489,6 @@ Cleanup:
 //at this point we don't know if any item will be selected or not
 //if we get cmMenuItemSelected:, we should remove timer and do the immediate cleanup after execution
 	mPostMenuCleanupTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)1.0 target:self selector:@selector(postMenuCleanup) userInfo:NULL repeats:NO];  
-	[mPostMenuCleanupTimer retain];
 }
 
 
@@ -1502,15 +1502,10 @@ Cleanup:
 	if(mPostMenuCleanupTimer != NULL)
 	{
 		[mPostMenuCleanupTimer invalidate];
-		[mPostMenuCleanupTimer release];
 		mPostMenuCleanupTimer = NULL;
 	}
 	
-	if(mCMItemsMenu != NULL)
-	{
-		[mCMItemsMenu release];
-		mCMItemsMenu = NULL;
-	}
+    mCMItemsMenu = NULL;
 
 	ContextualMenuInterfaceStruct **interface;
 	LoadedPlugin* currPlug = mLoadedPluginChain;

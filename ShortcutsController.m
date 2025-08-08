@@ -51,9 +51,6 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 	mAETextContext = kEmptyAEDesc;
 	mAEFileContext = kEmptyAEDesc;
 	mAEFolderContext = kEmptyAEDesc;
-	mContextText = NULL;
-	mContextFilePath = NULL;
-	mContextFolderPath = NULL;
 
 	mTextItemsMenu = NULL;
 	mFileItemsMenu = NULL;
@@ -90,17 +87,6 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 	if((mAEFolderContext.descriptorType != typeNull) && (mAEFolderContext.dataHandle != NULL))
 		AEDisposeDesc(&mAEFolderContext);
 	mAEFolderContext = kEmptyAEDesc;
-	
-	if(mContextText != NULL)
-		CFRelease(mContextText);
-
-	if(mContextFilePath != NULL)
-		CFRelease(mContextFilePath);
-
-	if(mContextFolderPath != NULL)
-		CFRelease(mContextFolderPath);
-
-    [super dealloc];
 }
 
 
@@ -165,8 +151,8 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 		if(keyChar != NULL)
 		{
 			unsigned int cocoaModifiers = [ShortcutsController getModifiersFromCarbonModifiers:hotKeyModifiers];
-			longString = [ShortcutsController getLongHotKeyString:(NSString *)keyChar withModifiers:cocoaModifiers];
-			shortString = [ShortcutsController getShortHotKeyString:(NSString *)keyChar withModifiers:cocoaModifiers];
+			longString = [ShortcutsController getLongHotKeyString:(__bridge NSString *)keyChar withModifiers:cocoaModifiers];
+			shortString = [ShortcutsController getShortHotKeyString:(__bridge NSString *)keyChar withModifiers:cocoaModifiers];
 			CFRelease(keyChar);
 		}
 	}
@@ -278,7 +264,8 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 		CFRelease(mChosenItemInfo);
 	mChosenItemInfo = NULL;
 	
-	mChosenItemInfo = (CFDictionaryRef)[menuItem representedObject];
+    NSDictionary *menuItemInfo = menuItem.representedObject;
+    mChosenItemInfo = (CFDictionaryRef)CFBridgingRetain(menuItemInfo);
 	if(mChosenItemInfo != NULL)
 	{
 		CFRetain(mChosenItemInfo);
@@ -542,7 +529,7 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 				}
 				else if(oneMenuName != NULL)
 				{
-					menuItem = (NSMenuItem*)[inMenu addItemWithTitle:(NSString *)oneMenuName action:@selector(cmMenuItemSelected:) keyEquivalent:@""];
+					menuItem = (NSMenuItem*)[inMenu addItemWithTitle:(__bridge NSString *)oneMenuName action:@selector(cmMenuItemSelected:) keyEquivalent:@""];
 				}
 				
 				if( (menuItem != NULL) && (oneMenuName != NULL) )
@@ -563,8 +550,7 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 
 					if( isSubmenu )
 					{
-						NSMenu *subMenu = [[NSMenu alloc] initWithTitle:(NSString *)oneMenuName];
-						[subMenu autorelease];
+						NSMenu *subMenu = [[NSMenu alloc] initWithTitle:(__bridge NSString *)oneMenuName];
 						[inMenu setSubmenu:(NSMenu *)subMenu forItem:menuItem];
 						CFURLRef newPath = CFURLCreateCopyAppendingPathComponent(
 											kCFAllocatorDefault,
@@ -606,8 +592,7 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 							[mutableAttrStr addAttribute:NSForegroundColorAttributeName value:redColor range:wholeRange];
 							*/
 							//[oldAttrString attribute:(NSString *)attributeName atIndex:0 effectiveRange:NULL];
-							NSAttributedString *redStr = [[NSAttributedString alloc] initWithString:(NSString*)oneMenuName attributes:redMenuTextAttr];
-							[redStr autorelease];
+							NSAttributedString *redStr = [[NSAttributedString alloc] initWithString:(__bridge NSString*)oneMenuName attributes:redMenuTextAttr];
 							[menuItem setAttributedTitle:redStr];
 							if(keyChar != NULL)
 								CFRelease(keyChar);
@@ -630,10 +615,7 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 							CFDictionarySetValue(theDict, CFSTR("ID"), commandID);//retained
 							CFRelease(commandID);
 							CFDictionarySetValue(theDict, CFSTR("PREFERS_TEXT_CONTEXT"), inPrefersText ? kCFBooleanTrue : kCFBooleanFalse );
-							[menuItem setRepresentedObject:(id)theDict];//retained (hopefully)
-							
-							
-							CFRelease(theDict);
+                            menuItem.representedObject = CFBridgingRelease(theDict);
 						}
 						CFRelease(submenuPathStr);
 						CFRelease(currentPluginName);
@@ -730,12 +712,8 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 					
 					if(err == noErr)
 					{
-						if(mContextFilePath != NULL)
-							CFRelease(mContextFilePath);
-
-						mContextFilePath = (CFStringRef)aFile;
-						CFRetain(mContextFilePath);
-						[mFileContextField setStringValue:(NSString*)mContextFilePath];
+						self.contextFilePath = aFile;
+						[mFileContextField setStringValue:self.contextFilePath];
 						return TRUE;
 					}
 				}
@@ -788,12 +766,8 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 					
 					if(err == noErr)
 					{
-						if(mContextFolderPath != NULL)
-							CFRelease(mContextFolderPath);
-
-						mContextFolderPath = (CFStringRef)aFile;
-						CFRetain(mContextFolderPath);
-						[mFolderContextField setStringValue:(NSString*)mContextFolderPath];
+						self.contextFolderPath = aFile;
+						[mFolderContextField setStringValue:self.contextFolderPath];
 						return TRUE;
 					}
 				}
@@ -857,28 +831,20 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 {
 	if(contextID == 1)//text
 	{
-		if(mContextText != NULL)
-			CFRelease(mContextText);
-		
-		mContextText = (CFStringRef)[mTextContextField stringValue];
-		CFRetain(mContextText);
+		self.contextText = [mTextContextField stringValue];
 		if((mAETextContext.descriptorType != typeNull) && (mAETextContext.dataHandle != NULL))
 			AEDisposeDesc(&mAETextContext);
 		mAETextContext = kEmptyAEDesc;
-		OSStatus err = CreateUniTextDescFromCFString(mContextText, &mAETextContext);
+		OSStatus err = CreateUniTextDescFromCFString((__bridge CFStringRef)self.contextText, &mAETextContext);
 		[self menuNeedsUpdate:mTextItemsMenu];
 	}
 	else if(contextID == 2)//file path
 	{
-		if(mContextFilePath != NULL)
-			CFRelease(mContextFilePath);
-		
-		mContextFilePath = (CFStringRef)[mFileContextField stringValue];
-		CFRetain(mContextFilePath);
+		self.contextFilePath = [mFileContextField stringValue];
 		
 		FSRef oneRef;
 		memset(&oneRef, 0, sizeof(oneRef));
-		BOOL isOK = [self getFSRefFromPath:(NSString*)mContextFilePath toRef: &oneRef];
+		BOOL isOK = [self getFSRefFromPath:self.contextFilePath toRef: &oneRef];
 		if(isOK)
 		{
 			int multiSelState = [mFileMultipleSelection state];
@@ -906,15 +872,11 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 	}
 	else if(contextID == 3)//folder path
 	{
-		if(mContextFolderPath != NULL)
-			CFRelease(mContextFolderPath);
-		
-		mContextFolderPath = (CFStringRef)[mFolderContextField stringValue];
-		CFRetain(mContextFolderPath);
+		self.contextFolderPath = [mFolderContextField stringValue];
 		
 		FSRef oneRef;
 		memset(&oneRef, 0, sizeof(oneRef));
-		BOOL isOK = [self getFSRefFromPath:(NSString*)mContextFolderPath toRef: &oneRef];
+		BOOL isOK = [self getFSRefFromPath:self.contextFolderPath toRef: &oneRef];
 		if(isOK)
 		{
 			int multiSelState = [mFolderMultipleSelection state];
@@ -1276,8 +1238,8 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 	if(!doReset)
 	{
 		unsigned int cocoaModifiers = [ShortcutsController getModifiersFromCarbonModifiers:newModifiers];
-		longString = [ShortcutsController getLongHotKeyString:(NSString *)newKeyChar withModifiers:cocoaModifiers];
-		shortString = [ShortcutsController getShortHotKeyString:(NSString *)newKeyChar withModifiers:cocoaModifiers];
+		longString = [ShortcutsController getLongHotKeyString:(__bridge NSString *)newKeyChar withModifiers:cocoaModifiers];
+		shortString = [ShortcutsController getShortHotKeyString:(__bridge NSString *)newKeyChar withModifiers:cocoaModifiers];
 	}
 	[mContextMenuLongHotKey setStringValue: longString];	
 	[mContextMenuShortHotKey setStringValue: shortString];	
@@ -1336,7 +1298,7 @@ static inline NSUInteger CarbonToCocoaMenuModifiers(UInt32 inCarbonModifiers)
 	else
 		upperKey = theKey;
 
-	[shortString appendString: upperKey];
+	[shortString appendString:upperKey];
 	
 	return shortString;
 }

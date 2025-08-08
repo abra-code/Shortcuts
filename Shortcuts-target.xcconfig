@@ -1,0 +1,10 @@
+CODE_SIGN_ENTITLEMENTS = ${TARGET_NAME}.entitlements
+PRODUCT_BUNDLE_IDENTIFIER = com.abracode.${TARGET_NAME}
+PRODUCT_NAME = Abracode Shortcuts
+WRAPPER_EXTENSION = app
+
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_PREFIX_HEADER = Shortcuts_Prefix.pch
+INFOPLIST_FILE = Shortcuts_Info.plist
+
+OTHER_CODE_SIGN_FLAGS = --deep --verbose

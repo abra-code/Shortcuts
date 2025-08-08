@@ -49,11 +49,12 @@ enum
 	AEDesc		mAETextContext;
 	AEDescList	mAEFileContext;
 	AEDescList	mAEFolderContext;
-	CFStringRef mContextText;
-	CFStringRef mContextFilePath;
-	CFStringRef mContextFolderPath;
 	int			mActiveHotKeyDialog;
 }
+
+@property (strong) NSString *contextFilePath;
+@property (strong) NSString *contextFolderPath;
+@property (strong) NSString *contextText;
 
 - (IBAction)cmMenuItemSelected:(id)sender;
 - (IBAction)showHotKeyDialogForContextualMenu:(id)sender;

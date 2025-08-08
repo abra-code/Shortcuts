@@ -8,9 +8,7 @@
  */
 
 #include "BuildCMPluginList.h"
-#include "ExamineExecutable.h"
-
-//#include "MoreFilesX.h"
+#include <Carbon/Carbon.h>
 
 typedef enum FolderItemsMatchOptions
 {
@@ -103,8 +101,14 @@ CreateItemURLArrayForDirectory(FSRef *folderRef, FolderItemsMatchOptions inOptio
 Boolean
 IsPluginLoadable(CFURLRef inPluginURL)
 {
+#if defined(__arm64__)
+    CFIndex myArchitecture = kCFBundleExecutableArchitectureARM64;
+#elif defined(__x86_64__)
 	CFIndex myArchitecture = kCFBundleExecutableArchitectureX86_64;
-
+#else
+    #error Unsupported architecture
+#endif
+    
 	Boolean isLoadable = false;
 	CFBundleRef pluginBundle = CFBundleCreate( kCFAllocatorDefault, inPluginURL );
 	if(pluginBundle != NULL)
@@ -171,26 +175,6 @@ BuildCMPluginList(void)
 //global plugins	
 	memset(&folderRef, 0, sizeof(folderRef));
 	err = FSFindFolder(kLocalDomain, kContextualMenuItemsFolderType, false, &folderRef);
-	if(err == noErr)
-	{
-		CFArrayRef oneLocationItems = CreateItemURLArrayForDirectory(&folderRef, kFolderItemsMatch_FoldersOnly, pluginExt);
-		if(oneLocationItems != NULL)
-		{
-			CFIndex itemCount = CFArrayGetCount(oneLocationItems);
-			for( i = 0; i < itemCount; i++ )
-			{
-				CFURLRef oneURL = CFArrayGetValueAtIndex(oneLocationItems, i);
-				Boolean isLoadable = IsPluginLoadable(oneURL);
-				if( isLoadable )
-					CFArrayAppendValue(outArray, oneURL);
-			}
-			CFRelease(oneLocationItems);
-		}
-	}
-
-//system plugins
-	memset(&folderRef, 0, sizeof(folderRef));
-	err = FSFindFolder(kSystemDomain, kContextualMenuItemsFolderType, false, &folderRef);
 	if(err == noErr)
 	{
 		CFArrayRef oneLocationItems = CreateItemURLArrayForDirectory(&folderRef, kFolderItemsMatch_FoldersOnly, pluginExt);

@@ -7,6 +7,8 @@
  *
  */
 
+#include <CoreServices/CoreServices.h>
+#include <Carbon/Carbon.h>
 #include "ExtractCMItemData.h"
 #include "AEDescText.h"
 
