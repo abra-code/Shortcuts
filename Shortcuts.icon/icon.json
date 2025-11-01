@@ -1,0 +1,59 @@
+{
+  "fill" : {
+    "automatic-gradient" : "srgb:0.92143,0.92145,0.92144,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : "normal"
+            }
+          ],
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "display-p3:0.49414,0.09045,0.05460,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "display-p3:0.49414,0.09033,0.05475,1.00000"
+              }
+            }
+          ],
+          "glass" : true,
+          "image-name" : "command-small.png",
+          "name" : "command-small"
+        },
+        {
+          "fill" : {
+            "linear-gradient" : [
+              "srgb:0.00000,0.56032,0.00000,1.00000",
+              "srgb:0.00000,0.56032,0.00000,1.00000"
+            ]
+          },
+          "hidden" : false,
+          "image-name" : "diamond-thick.png",
+          "name" : "diamond-thick"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "macOS"
+    ]
+  }
+}

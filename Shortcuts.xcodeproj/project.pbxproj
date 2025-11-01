@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D3B52022EB61B1B007734BD /* Shortcuts.icon in Resources */ = {isa = PBXBuildFile; fileRef = 1D3B52012EB61B1B007734BD /* Shortcuts.icon */; };
 		1D5A74002338B25E0048A2A5 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5A73FF2338B25E0048A2A5 /* ServiceManagement.framework */; };
 		1D5AD2E82334BCDF0015B220 /* Example file.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D9EFE60987705A001019ED /* Example file.png */; };
 		1D5AD2EE2334C4F50015B220 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D5AD2EC2334C4F40015B220 /* MainMenu.xib */; };
@@ -25,7 +26,6 @@
 		E2A2F09907C86D6C0091B5C6 /* BuildCMPluginList.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A2F09807C86D6C0091B5C6 /* BuildCMPluginList.c */; };
 		E2A2F0B507C871470091B5C6 /* ExtractCMItemData.c in Sources */ = {isa = PBXBuildFile; fileRef = E2A2F0B407C871470091B5C6 /* ExtractCMItemData.c */; };
 		E2A2F0D507C8742E0091B5C6 /* ShortcutsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2A2F0D407C8742E0091B5C6 /* ShortcutsController.m */; };
-		E2C834AD0FE2F6C200682D0D /* Shortcuts.icns in Resources */ = {isa = PBXBuildFile; fileRef = E2C834AB0FE2F6C200682D0D /* Shortcuts.icns */; };
 		E2C835B40FE3491D00682D0D /* CocoaBezelWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = E2C835B20FE3491D00682D0D /* CocoaBezelWindow.mm */; };
 		E2CC40CF0F6EDE2000486CCF /* ShortcutObserver.app in Copy Observer */ = {isa = PBXBuildFile; fileRef = E2E0F56909B4256100CD1E12 /* ShortcutObserver.app */; };
 		E2D12BDE08519FF500915F17 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2D12BDC08519FF500915F17 /* Localizable.strings */; };
@@ -35,16 +35,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1D2306462E17605600C3F67C /* PBXContainerItemProxy */ = {
+		1D3B52092EB69802007734BD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */;
+			containerPortal = 1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D0C4E890486CD37000505A6;
 			remoteInfo = ShortcutObserver;
 		};
-		1D23064A2E17605600C3F67C /* PBXContainerItemProxy */ = {
+		1D3B520C2EB69802007734BD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */;
+			containerPortal = 1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8D0C4E970486CD37000505A6;
 			remoteInfo = ShortcutObserver;
@@ -67,12 +67,13 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutObserver.xcodeproj; path = "/Users/tkukielk/Development/Abracode Workshop/Shortcuts/ShortcutObserver/ShortcutObserver.xcodeproj"; sourceTree = "<absolute>"; };
 		1D2306522E17DF0D00C3F67C /* Shortcuts-project-common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-project-common.xcconfig"; sourceTree = "<group>"; };
 		1D2306532E17DF0D00C3F67C /* Shortcuts-project-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-project-debug.xcconfig"; sourceTree = "<group>"; };
 		1D2306542E17DF0D00C3F67C /* Shortcuts-project-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-project-release.xcconfig"; sourceTree = "<group>"; };
 		1D2306552E17DF0D00C3F67C /* Shortcuts-version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-version.xcconfig"; sourceTree = "<group>"; };
 		1D2306562E17DF2E00C3F67C /* Shortcuts-target.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-target.xcconfig"; sourceTree = "<group>"; };
+		1D3B52012EB61B1B007734BD /* Shortcuts.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Shortcuts.icon; sourceTree = "<group>"; };
+		1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutObserver.xcodeproj; path = /Users/tkukielk/Development/Shortcuts/ShortcutObserver/ShortcutObserver.xcodeproj; sourceTree = "<absolute>"; };
 		1D5A73FF2338B25E0048A2A5 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = ../../../../../System/Library/Frameworks/ServiceManagement.framework; sourceTree = "<group>"; };
 		1D5AD2E42334B7A70015B220 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D5AD2E52334B7AD0015B220 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -102,7 +103,6 @@
 		E2A2F09807C86D6C0091B5C6 /* BuildCMPluginList.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = BuildCMPluginList.c; sourceTree = SOURCE_ROOT; };
 		E2A2F0B407C871470091B5C6 /* ExtractCMItemData.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = ExtractCMItemData.c; sourceTree = SOURCE_ROOT; };
 		E2A2F0D407C8742E0091B5C6 /* ShortcutsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ShortcutsController.m; sourceTree = "<group>"; };
-		E2C834AB0FE2F6C200682D0D /* Shortcuts.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Shortcuts.icns; sourceTree = SOURCE_ROOT; };
 		E2C835B10FE3491D00682D0D /* CocoaBezelWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaBezelWindow.h; path = ShortcutObserver/CocoaBezelWindow.h; sourceTree = SOURCE_ROOT; };
 		E2C835B20FE3491D00682D0D /* CocoaBezelWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CocoaBezelWindow.mm; path = ShortcutObserver/CocoaBezelWindow.mm; sourceTree = SOURCE_ROOT; };
 		E2CC400C0F6ED57800486CCF /* Shortcuts_Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Shortcuts_Info.plist; sourceTree = SOURCE_ROOT; };
@@ -170,10 +170,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1D2306442E17605600C3F67C /* Products */ = {
+		1D3B52072EB69802007734BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D23064B2E17605600C3F67C /* ShortcutObserver.app */,
+				1D3B520D2EB69802007734BD /* ShortcutObserver.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,7 +201,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */,
+				1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */,
 			);
 			name = Shortcuts;
 			sourceTree = "<group>";
@@ -229,7 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				1D5AD2EC2334C4F40015B220 /* MainMenu.xib */,
-				E2C834AB0FE2F6C200682D0D /* Shortcuts.icns */,
+				1D3B52012EB61B1B007734BD /* Shortcuts.icon */,
 				E2E0F56909B4256100CD1E12 /* ShortcutObserver.app */,
 				E2D9F04E098776FF001019ED /* Example folder */,
 				E2D9EFE60987705A001019ED /* Example file.png */,
@@ -268,7 +268,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1D2306472E17605600C3F67C /* PBXTargetDependency */,
+				1D3B520A2EB69802007734BD /* PBXTargetDependency */,
 			);
 			name = Shortcuts;
 			productInstallPath = "$(HOME)/Applications";
@@ -296,8 +296,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 1D2306442E17605600C3F67C /* Products */;
-					ProjectRef = 1D2306432E17605600C3F67C /* ShortcutObserver.xcodeproj */;
+					ProductGroup = 1D3B52072EB69802007734BD /* Products */;
+					ProjectRef = 1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -308,11 +308,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1D23064B2E17605600C3F67C /* ShortcutObserver.app */ = {
+		1D3B520D2EB69802007734BD /* ShortcutObserver.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = ShortcutObserver.app;
-			remoteRef = 1D23064A2E17605600C3F67C /* PBXContainerItemProxy */;
+			remoteRef = 1D3B520C2EB69802007734BD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -330,8 +330,8 @@
 				E25F1560098CD940007F67DA /* minus.tiff in Resources */,
 				E25F1563098CDAD9007F67DA /* pen.tiff in Resources */,
 				E2ECE667099ADDA2004B73CA /* faster.tiff in Resources */,
-				E2C834AD0FE2F6C200682D0D /* Shortcuts.icns in Resources */,
 				1D5AD2EE2334C4F50015B220 /* MainMenu.xib in Resources */,
+				1D3B52022EB61B1B007734BD /* Shortcuts.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,10 +359,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1D2306472E17605600C3F67C /* PBXTargetDependency */ = {
+		1D3B520A2EB69802007734BD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ShortcutObserver;
-			targetProxy = 1D2306462E17605600C3F67C /* PBXContainerItemProxy */;
+			targetProxy = 1D3B52092EB69802007734BD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
