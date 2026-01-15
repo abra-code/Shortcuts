@@ -35,18 +35,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1D3B52092EB69802007734BD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D0C4E890486CD37000505A6;
-			remoteInfo = ShortcutObserver;
-		};
-		1D3B520C2EB69802007734BD /* PBXContainerItemProxy */ = {
+		1DCBC17F2F19660C0002B8AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8D0C4E970486CD37000505A6;
+			remoteInfo = ShortcutObserver;
+		};
+		1DCBC1812F1966430002B8AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D0C4E890486CD37000505A6;
 			remoteInfo = ShortcutObserver;
 		};
 /* End PBXContainerItemProxy section */
@@ -73,7 +73,7 @@
 		1D2306552E17DF0D00C3F67C /* Shortcuts-version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-version.xcconfig"; sourceTree = "<group>"; };
 		1D2306562E17DF2E00C3F67C /* Shortcuts-target.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shortcuts-target.xcconfig"; sourceTree = "<group>"; };
 		1D3B52012EB61B1B007734BD /* Shortcuts.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Shortcuts.icon; sourceTree = "<group>"; };
-		1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutObserver.xcodeproj; path = /Users/tkukielk/Development/Shortcuts/ShortcutObserver/ShortcutObserver.xcodeproj; sourceTree = "<absolute>"; };
+		1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutObserver.xcodeproj; path = ShortcutObserver/ShortcutObserver.xcodeproj; sourceTree = "<group>"; };
 		1D5A73FF2338B25E0048A2A5 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = ../../../../../System/Library/Frameworks/ServiceManagement.framework; sourceTree = "<group>"; };
 		1D5AD2E42334B7A70015B220 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D5AD2E52334B7AD0015B220 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 		E2CC400C0F6ED57800486CCF /* Shortcuts_Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Shortcuts_Info.plist; sourceTree = SOURCE_ROOT; };
 		E2D9EFE60987705A001019ED /* Example file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Example file.png"; sourceTree = "<group>"; };
 		E2D9F04E098776FF001019ED /* Example folder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Example folder"; sourceTree = SOURCE_ROOT; };
-		E2E0F56909B4256100CD1E12 /* ShortcutObserver.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = ShortcutObserver.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2E0F56909B4256100CD1E12 /* ShortcutObserver.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = ShortcutObserver.app; path = build/Development/ShortcutObserver.app; sourceTree = SOURCE_ROOT; };
 		E2E579640892DEF300725BC9 /* HotKeyListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotKeyListController.h; sourceTree = "<group>"; };
 		E2E579650892DEF300725BC9 /* HotKeyListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotKeyListController.m; sourceTree = "<group>"; };
 		E2ECE666099ADDA2004B73CA /* faster.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = faster.tiff; sourceTree = SOURCE_ROOT; };
@@ -170,14 +170,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1D3B52072EB69802007734BD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1D3B520D2EB69802007734BD /* ShortcutObserver.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		1D8142E8233F35F3007D07CE /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +181,14 @@
 			);
 			path = Common;
 			sourceTree = SOURCE_ROOT;
+		};
+		1DCBC17C2F19660C0002B8AB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1DCBC1802F19660C0002B8AB /* ShortcutObserver.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* Shortcuts */ = {
 			isa = PBXGroup;
@@ -268,7 +268,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1D3B520A2EB69802007734BD /* PBXTargetDependency */,
+				1DCBC1822F1966430002B8AB /* PBXTargetDependency */,
 			);
 			name = Shortcuts;
 			productInstallPath = "$(HOME)/Applications";
@@ -296,7 +296,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 1D3B52072EB69802007734BD /* Products */;
+					ProductGroup = 1DCBC17C2F19660C0002B8AB /* Products */;
 					ProjectRef = 1D3B52062EB69802007734BD /* ShortcutObserver.xcodeproj */;
 				},
 			);
@@ -308,11 +308,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1D3B520D2EB69802007734BD /* ShortcutObserver.app */ = {
+		1DCBC1802F19660C0002B8AB /* ShortcutObserver.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = ShortcutObserver.app;
-			remoteRef = 1D3B520C2EB69802007734BD /* PBXContainerItemProxy */;
+			remoteRef = 1DCBC17F2F19660C0002B8AB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -359,10 +359,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1D3B520A2EB69802007734BD /* PBXTargetDependency */ = {
+		1DCBC1822F1966430002B8AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ShortcutObserver;
-			targetProxy = 1D3B52092EB69802007734BD /* PBXContainerItemProxy */;
+			targetProxy = 1DCBC1812F1966430002B8AB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
