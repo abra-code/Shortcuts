@@ -8,7 +8,7 @@ DEVELOPMENT_TEAM =
 #include? "Shortcuts-distribution.xcconfig"
 
 
-MACOSX_DEPLOYMENT_TARGET = 11.0
+MACOSX_DEPLOYMENT_TARGET = 12.0
 SDKROOT = macosx
 // FRAMEWORK_SEARCH_PATHS = /Library/Frameworks
 GCC_VERSION = com.apple.compilers.llvm.clang.1_0
